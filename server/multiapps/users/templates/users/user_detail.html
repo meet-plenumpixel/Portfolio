@@ -1,32 +1,73 @@
 {% extends "home/base_site.html" %}
+{% load static %}
 
 
-<!-- 
 {% block extrastyle %}
-<link href="{% static 'user/css/login.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'users/css/user_detail.css' %}">
 {% endblock %}
+
 
 {% block content %}
-  <div class="login-dark">
-    <form method="post">
-      <h2 class="sr-only">Login Form</h2>
-      <div class="illustration">
-        <i class="icon ion-ios-locked-outline">
-
-        </i>
+<div class="container rounded bg-white mt-3">
+  <div class="row">
+    <div class="col-md-3 border-right">
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+        <img class="rounded-circle mt-5" width="150px" src="{{ profile.image.url }}">
+        <span class="font-weight-bold">{{ profile.user.first_name }} {{ profile.user.last_name }}</span>
+        <span class="text-black-50">{{ profile.user.email }}</span>
       </div>
-      <div class="form-group">
-        <input class="form-control" type="email" name="email" placeholder="Email">
+    </div>
+    <div class="col-md-5 border-right">
+      <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-right">Profile Settings</h4>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
+              placeholder="{{ profile.user.first_name }}" value=""></div>
+          <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value=""
+              placeholder="{{ profile.user.last_name }}"></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control"
+              placeholder="{{ profile.phone_number }}" value=""></div>
+          <div class="col-md-12"><label class="labels">Address Line</label><input type="text" class="form-control"
+              placeholder="enter address line" value=""></div>
+          <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control"
+              placeholder="enter address line 2" value=""></div>
+          <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control"
+              placeholder="enter address line 2" value=""></div>
+          <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control"
+              placeholder="enter address line 2" value=""></div>
+          <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"
+              placeholder="{{ profile.user.email }}" value=""></div>
+          <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control"
+              placeholder="education" value=""></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control"
+              placeholder="country" value=""></div>
+          <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control"
+              value="" placeholder="state"></div>
+        </div>
+        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button>
+        </div>
       </div>
-      <div class="form-group">
-        <input class="form-control" type="password" name="password" placeholder="Password">
+    </div>
+    <div class="col-md-4">
+      <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span
+            class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+        <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text"
+            class="form-control" placeholder="experience" value=""></div> <br>
+        <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control"
+            placeholder="additional details" value=""></div>
       </div>
-      <div class="form-group">
-        <button class="btn btn-primary btn-block" type="submit">Log In</button>
-      </div>
-      <a href="#" class="forgot">Forgot your email or password?</a>
-    </form>
+    </div>
   </div>
+</div>
 {% endblock %}
- -->
 
+{% block extrajs %}
+<script src="{% static 'home/js/jquery-3.6.0.js' %}"></script>
+{% endblock %}

@@ -18,17 +18,22 @@ class UserProfileView(TemplateView):
 
 class UserDetailView(DetailView):
   model = user_model.ProfileModel
-  template_name = 'user/user_detail.html'
+  template_name = 'users/user_detail.html'
+  context_object_name = 'profile'
 
-  def get_context_data(self, **kwargs):
-    self.kwargs[self.pk_url_kwarg] = self.request.user.pk
-    return super().get_context_data(**kwargs)
-
-
-  # def get(self, request, *args, **kwargs):
-  #   return super().get(request, *args, **kwargs)
+  # def get_context_data(self, **kwargs):
+  #   return super().get_context_data(**kwargs)
 
 
+  def get(self, request, *args, **kwargs):
+    self.kwargs[self.pk_url_kwarg] = self.request.user.profilemodel.pk
+    print(self.kwargs[self.pk_url_kwarg])
+    return super().get(request, *args, **kwargs)
+
+  # def get_object(self, queryset=None):
+  #   print()
+  #   temp = super().get_object(queryset)
+  #   return temp
 
 
 
