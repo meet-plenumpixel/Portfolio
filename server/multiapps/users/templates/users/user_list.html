@@ -154,11 +154,12 @@
           <div class="col-sm-4">
             <div class="show-entries">
               <span>Show</span>
-              <select>
-                  <option>5</option>
-                  <option>10</option>
-                  <option>15</option>
-                  <option>20</option>
+              <select onchange="location=this.value;">
+                  <option value="?paginate_by=1">1</option>
+                  <option value="?paginate_by=2">2</option>
+                  <option value="?paginate_by=3">3</option>
+                  <option value="?paginate_by=4">4</option>
+                  <option value="?paginate_by=5">5</option>
               </select>
               <span>entries</span>
             </div>						
@@ -180,93 +181,81 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Name <i class="fa fa-sort"></i></th>
-            <th>Address</th>
-            <th>City <i class="fa fa-sort"></i></th>
-            <th>Pin Code</th>
-            <th>Country <i class="fa fa-sort"></i></th>
+            <th>User Name<i class="fa fa-sort"></i></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email<i class="fa fa-sort"></i></th>
+            <th>Phone No.</th>
+            <th>Country<i class="fa fa-sort"></i></th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Thomas Hardy</td>
-            <td>89 Chiaroscuro Rd.</td>
-            <td>Portland</td>
-            <td>97219</td>
-            <td>USA</td>
-            <td>
-              <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Maria Anders</td>
-            <td>Obere Str. 57</td>
-            <td>Berlin</td>
-            <td>12209</td>
-            <td>Germany</td>
-            <td>
-              <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Fran Wilson</td>
-            <td>C/ Araquil, 67</td>
-            <td>Madrid</td>
-            <td>28023</td>
-            <td>Spain</td>
-            <td>
-              <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Dominique Perrier</td>
-            <td>25, rue Lauriston</td>
-            <td>Paris</td>
-            <td>75016</td>
-            <td>France</td>
-            <td>
-              <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Martin Blank</td>
-            <td>Via Monte Bianco 34</td>
-            <td>Turin</td>
-            <td>10100</td>
-            <td>Italy</td>
-            <td>
-              <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-              <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-            </td>
-          </tr>        
+          
+          {% for profile in users_profile %}
+            
+            <tr>
+              <td>{{ profile.id }}</td>
+              <td>{{ profile.user.username }}</td>
+              <td>{{ profile.user.first_name }}</td>
+              <td>{{ profile.user.last_name }}</td>
+              <td>{{ profile.user.email }}</td>
+              <td>{{ profile.phone_number }}</td>
+              <td>USA</td>
+              <td>
+                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+              </td>
+            </tr>
+             
+          {% endfor %}
+          
         </tbody>
       </table>
       <div class="clearfix">
-        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-        <ul class="pagination">
-          <li class="page-item disabled"><a href="#">Previous</a></li>
+        <div class="hint-text">Showing <b>5</b> out of <b>{{ paginator.count }}</b> entries</div>
+
+        {% if is_paginated %}
+          <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+              <li class="page-item disabled"><a href="?page=1">First</a></li>
+              <!-- <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a> -->
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                <!-- <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a> -->
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                <!-- <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a> -->
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last</a></li>
+              <!-- <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a> -->
+            {% endif %}
+
+          </ul>
+        {% endif %}
+
+        <!-- <ul class="pagination">
+          <li class="page-item disabled"><a href="?page=1">First</a></li>
           <li class="page-item"><a href="#" class="page-link">1</a></li>
           <li class="page-item"><a href="#" class="page-link">2</a></li>
           <li class="page-item active"><a href="#" class="page-link">3</a></li>
           <li class="page-item"><a href="#" class="page-link">4</a></li>
           <li class="page-item"><a href="#" class="page-link">5</a></li>
           <li class="page-item"><a href="#" class="page-link">Next</a></li>
-        </ul>
+        </ul> -->
+
+
+
       </div>
     </div>
   </div>        

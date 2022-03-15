@@ -30,6 +30,15 @@ class UserListView(ListView):
   model = user_model.ProfileModel
   template_name = 'users/user_list.html'
   context_object_name = 'users_profile'
+  # ordering = ['user']
+  paginate_by = 1
+
+  def get(self, request, *args, **kwargs):
+    if (paginate_by:=request.GET.get('paginate_by', None)):
+      self.paginate_by = paginate_by
+    self.extra_context = {'paginate_by':self.paginate_by}
+
+    return super().get(request, *args, **kwargs)
 
 
 
