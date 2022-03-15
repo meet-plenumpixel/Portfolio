@@ -1,0 +1,35 @@
+{% extends "home/auth_form.html" %}
+{% load widget_tweaks %}
+
+
+{% block form_fields %}
+<!-- Username input -->
+<div class="form-outline mb-4">
+  <label class="form-label" for="{{ form.username.id_for_label}}">{{ form.username.label }}</label>
+  {{ form.username|add_class:"form-control form-control-lg" }}
+</div>
+
+<!-- Email input -->
+<div class="form-outline mb-3">
+  <label class="form-label" for="{{ form.email.id_for_label}}">{{ form.email.label }}</label>
+  {{ form.email|add_class:"form-control form-control-lg" }}
+</div>
+
+<!-- Password1 input -->
+<div class="form-outline mb-3">
+  <label class="form-label" for="{{ form.password1.id_for_label}}">{{ form.password1.label }}</label>
+  {{ form.password1|add_class:"form-control form-control-lg" }}
+</div>
+
+<!-- Password2 input -->
+<div class="form-outline mb-3">
+  <label class="form-label" for="{{ form.password2.id_for_label}}">{{ form.password2.label }}</label>
+  {{ form.password2|add_class:"form-control form-control-lg" }}
+</div>
+
+{% with submit_btn="register" form_change_btn="login" %}
+  {{ block.super }}
+{% endwith %}
+
+
+{% endblock %}
