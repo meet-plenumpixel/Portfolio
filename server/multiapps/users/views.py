@@ -6,6 +6,8 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, DetailView, ListView
 from users import models as user_model
 from users import forms as user_form
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 # Create your views here.
 
@@ -13,6 +15,11 @@ from users import forms as user_form
 
 class UserProfileView(TemplateView):
   template_name = 'home/index.html'
+
+  def get(self, request, *args, **kwargs):
+    # messages.add_message(self.request, messages.ERROR, 'Hello world.')
+    messages.add_message(self.request, 101, 'Hello world.')
+    return super().get(request, *args, **kwargs)
 
 
 class UserDetailView(DetailView):
@@ -26,7 +33,10 @@ class UserDetailView(DetailView):
     return super().get(request, *args, **kwargs)
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
+  login_url = reverse_lazy('login')
+  permission_denied_message = 'first login'
+
   model = user_model.ProfileModel
   template_name = 'users/user_list.html'
   context_object_name = 'users_profile'
@@ -43,16 +53,8 @@ class UserListView(ListView):
 
 
 
-
-
-
-
-
-
-
-
 class UserLoginView(LoginView):
-  template_name = 'home/login.html'
+  template_name = 'authentication/login.html'
   next_page = reverse_lazy('profile')
 
   def get_context_data(self, **kwargs):
@@ -62,10 +64,10 @@ class UserLoginView(LoginView):
     return context
 
 class UserLogoutView(LogoutView):
-  template_name = 'home/logout.html'
+  template_name = 'authentication/logout.html'
 
 
 class UserRegisterView(CreateView):
   form_class = user_form.UserRegisterForm
-  template_name = 'home/register.html'
+  template_name = 'authentication/register.html'
   success_url = reverse_lazy('login')
